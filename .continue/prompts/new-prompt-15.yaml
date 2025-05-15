@@ -1,0 +1,9 @@
+name: New prompt
+version: 0.0.1
+schema: v1
+prompts:
+  - name: Newat
+    description: Napt
+    prompt: Please write a tad relevant edge cases
+
+  - name: New prompt

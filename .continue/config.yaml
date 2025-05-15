@@ -1,0 +1,44 @@
+models:
+  - title: "Llama 3 8B Instruct (Local)"
+    model: "dicks models/model/meta-llama-3-8b-instruct.q2_k.gguf"
+    api_base: "http://192.168.1.80:1234/v1"
+    provider: "openai"
+    temperature: 0.7
+    max_tokens: 4000
+
+context_providers:
+  - title: "Local Files"
+    provider: "filesystem"
+    options:
+      include_patterns: ["**/*"]
+      exclude_patterns: ["**/node_modules/**", "**/.git/**", "**/dist/**"]
+
+system_message: |
+  You are a helpful coding assistant with the ability to read and write files.
+  When asked to read a file, provide its contents.
+  When asked to write to a file, update the file with the specified content.
+  
+  Always respond with clear and concise answers.
+  When showing code, ensure it's properly formatted and explained.
+
+file_editing:
+  enabled: true
+  require_user_confirmation: true
+
+slash_commands:
+  - name: "read"
+    description: "Read a file"
+    template: "/read {file_path}"
+  - name: "write"
+    description: "Write to a file"
+    template: "/write {file_path} {content}"
+  - name: "edit"
+    description: "Edit a file"
+    template: "/edit {file_path}"
+
+permissions:
+  file_read: true
+  file_write: true
+
+default_chat_model: "Llama 3 8B Instruct (Local)"
+default_edit_model: "Llama 3 8B Instruct (Local)"

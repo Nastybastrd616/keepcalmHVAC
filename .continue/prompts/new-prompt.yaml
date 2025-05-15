@@ -1,0 +1,95 @@
+name: New prompt
+version: 0.0.1
+schema: v1
+promptname: Dev Prompt Pack
+version: 0.0.1
+schema: v1
+prompts:
+  - name: Create a responsive dashboard layout in Vue with a sidebar and top nav
+    description: Generates a responsive dashboard layout in Vue.js, including a sidebar and top navigation bar.
+    prompt: Create a responsive dashboard layout in Vue with a sidebar and top nav.
+
+  - name: Generate REST API endpoints in Flask for Task resource
+    description: Creates RESTful API endpoints in Flask for managing 'Task' resources.
+    prompt: Generate REST API endpoints in Flask for a resource called Task.
+
+  - name: Add unit tests for registration flow (Jest)
+    description: Implements unit tests for the user registration process using Jest testing framework.
+    prompt: Add unit tests for the user registration flow using Jest.
+
+  - name: Write TypeScript interfaces for User and Project
+    description: Defines TypeScript interfaces for 'User' and 'Project' entities.
+    prompt: Write TypeScript interfaces for the User and Project objects.
+
+  - name: Generate markdown docs for all functions
+    description: Creates markdown documentation for all functions within the current file.
+    prompt: Generate markdown documentation for all functions in this file.
+
+  - name: Mobile-friendly settings page with toggles
+    description: Designs a mobile-responsive settings page featuring toggle switches and a save button.
+    prompt: Create a mobile-friendly settings page with toggle switches and save button.
+
+  - name: Refactor code for readability and performance
+    description: Refactors the provided code to enhance its readability and optimize performance.
+    prompt: Refactor this code to improve readability and performance.
+
+  - name: Modal component with form submission
+    description: Develops a modal component containing a form that submits data to a specified endpoint.
+    prompt: Build a modal component with a form that submits to an endpoint.
+
+  - name: Add inline comments to explain logic
+    description: Inserts detailed comments to explain the logic of the given component step by step.
+    prompt: Add comments to explain this component’s logic step by step.
+
+  - name: Task list Vue component with edit/delete
+    description: Builds a Vue.js component that displays a list of tasks, each with options to edit or delete.
+    prompt: Create a Vue component that displays a list of tasks with edit/delete options.
+
+  - name: Scan backend and suggest Vue components
+    description: Analyzes the backend API and lists UI components needed for each route.
+    prompt: Scan the backend for all exposed endpoints and suggest matching Vue components.
+
+  - name: Build dashboard from `/api/stats` response
+    description: Creates a dashboard layout with charts and tables using backend data.
+    prompt: Generate a data dashboard based on the `/api/stats` endpoint response structure.
+
+  - name: Master layout component with nav/footer
+    description: Defines a layout wrapper for your Vue app to give consistent structure across views.
+    prompt: Create a master layout component that wraps all pages and includes the nav and footer.
+
+  - name: Customer creation form (validated)
+    description: Generates a reusable form component wired to a backend create endpoint.
+    prompt: Build a form that submits to `/api/new_customer` with proper validation.
+
+  - name: File upload widget for document embed
+    description: Builds a file input that previews the file and submits via Axios to your backend.
+    prompt: Design a file upload widget for `/api/upload_document` with preview support.
+
+  - name: LLM chat UI connected to local endpoint
+    description: Generates a chat interface with streaming response handling from a local LLM endpoint.
+    prompt: Create a full-page chat UI connected to `http://localhost:11434/api/generate`.
+
+  - name: Vector DB result list UI
+    description: Build a front-end page that queries the local LLM’s vector endpoint and renders ranked search results in a card layout.
+    prompt: Generate a Vue 3 page that calls `/api/vector/query` and displays results.
+
+  - name: Reusable card component for doc metadata
+    description: Builds a Vue component that renders document title, summary, and source link.
+    prompt: Design a reusable Card component to display document metadata from the vector DB.
+
+  - name: Voice input button for chat
+    description: Adds a microphone button that captures speech input and sends the result to the chat interface.
+    prompt: Add a voice input button to the chat UI using Web Speech API.
+
+  - name: Sidebar layout with routes
+    description: Builds a responsive layout with a collapsible sidebar and routes to each section.
+    prompt: >
+      Scaffold a sidebar navigation layout with sections: Chat, Files, Vector Search, Settings.
+
+  - name: TypeScript types for vector endpoints
+    description: Inspects the shape of the API responses and writes matching types/interfaces.
+    prompt: Generate TypeScript types based on `/api/vector/query` and `/api/vector/embed` responses.
+
+  - name: Settings page for switching local models
+    description: Implements a dropdown or toggle interface that updates the active model selection in localStorage or app config.
+    prompt: Create a settings page to toggle between different LLM models running locally.
