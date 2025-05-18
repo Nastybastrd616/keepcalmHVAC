@@ -272,8 +272,19 @@ function getCustomerName(customerId) {
 }
 
 function calculateTotal(invoice) {
-  // In a real implementation, calculate the total from line items
-  // For now, just return a placeholder amount
+  if (typeof invoice.amount === 'number') {
+    return invoice.amount;
+  }
+  // Fallback: calculate from line items in first payment request
+  if (
+    invoice.paymentRequests &&
+    invoice.paymentRequests.length > 0 &&
+    invoice.paymentRequests[0].lineItems
+  ) {
+    return invoice.paymentRequests[0].lineItems.reduce((sum, item) => {
+      return sum + ((item.basePriceMoney && item.basePriceMoney.amount ? item.basePriceMoney.amount : 0) * (parseInt(item.quantity) || 1));
+    }, 0) / 100;
+  }
   return 0;
 }
 
@@ -494,6 +505,10 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+body, .page-content, .main-content {
+  background-color: #fff !important;
+}
+
 .page-content {
   padding: 1.5rem;
 }

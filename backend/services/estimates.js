@@ -20,11 +20,9 @@ const catalogApi = squareClient.catalogApi;
  */
 async function listEstimates(options = {}) {
   try {
-    const { cursor = null } = options;
-    
-    // Get custom objects with type "ESTIMATE"
-    const response = await catalogApi.searchCatalogObjects({
-      cursor,
+    const { cursor } = options;
+    // Build body and only include cursor if it is a string
+    const body = {
       objectTypes: ["CUSTOM_ATTRIBUTE_DEFINITION"],
       query: {
         exactQuery: {
@@ -32,8 +30,9 @@ async function listEstimates(options = {}) {
           attributeValue: "estimate"
         }
       }
-    });
-    
+    };
+    if (typeof cursor === 'string') body.cursor = cursor;
+    const response = await catalogApi.searchCatalogObjects(body);
     return response.result;
   } catch (error) {
     console.error('Error fetching estimates:', error);

@@ -1,0 +1,27 @@
+﻿
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {"invoices":[{"id":"inv:0-ChCsmWBCBuJ-LGeZL_2_hIzQEO8M"
+                    ,"version":1,"locationId":"L3J5BPVEBD5AK","orderId":"Et
+                    jPh0UtBb817Xd63l1Hds1f3qdZY","primaryRecipient":{"custo
+                    merId":"VX63WZCRDZ1XCQ92MQ3A759EKR"...
+RawContent        : HTTP/1.1 200 OK
+                    Access-Control-Allow-Origin: *
+                    Connection: keep-alive
+                    Keep-Alive: timeout=5
+                    Content-Length: 126646
+                    Content-Type: application/json; charset=utf-8
+                    Date: Sun, 18 May 2025 08:41:03 G...
+Forms             : {}
+Headers           : {[Access-Control-Allow-Origin, *], [Connection, 
+                    keep-alive], [Keep-Alive, timeout=5], [Content-Length, 
+                    126646]...}
+Images            : {}
+InputFields       : {}
+Links             : {}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 126646
+
+
+

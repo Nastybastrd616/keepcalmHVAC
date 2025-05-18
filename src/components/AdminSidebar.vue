@@ -46,16 +46,17 @@
 .admin-sidebar {
   width: 250px;
   height: 100%;
-  background: #1e1e2d;
-  color: rgba(255, 255, 255, 0.87);
+  background: #fff;
+  color: #222;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid #eee;
+  box-shadow: 0 0 32px 8px rgba(0,0,0,0.22);
 }
 
 .sidebar-header {
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #eee;
 }
 
 .sidebar-header h3 {
@@ -67,24 +68,26 @@
 .sidebar-nav {
   padding: 1rem 0;
   flex: 1;
+  background: #fff;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #444;
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s, color 0.2s;
+  border-radius: 6px 0 0 6px;
 }
 
 .nav-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 1);
+  background: #f5f7fa;
+  color: var(--primary-color);
 }
 
 .nav-item.router-link-active {
-  background: rgba(59, 89, 152, 0.2);
+  background: #eaf1fb;
   color: var(--primary-color);
   border-left: 3px solid var(--primary-color);
 }
@@ -96,7 +99,8 @@
 
 .sidebar-footer {
   padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid #eee;
+  background: #fff;
 }
 
 .user-info {

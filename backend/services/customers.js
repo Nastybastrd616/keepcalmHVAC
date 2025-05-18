@@ -19,9 +19,12 @@ const customersApi = squareClient.customersApi;
  */
 async function listCustomers(options = {}) {
   try {
-    const { cursor = null, limit = 100 } = options;
-    
-    const response = await customersApi.listCustomers(cursor, limit);
+    const { cursor, limit = 100 } = options;
+    // Only pass cursor if it is a string
+    const response = await customersApi.listCustomers(
+      typeof cursor === 'string' ? cursor : undefined,
+      limit
+    );
     return response.result;
   } catch (error) {
     console.error('Error fetching customers:', error);

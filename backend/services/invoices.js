@@ -18,13 +18,42 @@ const invoicesApi = squareClient.invoicesApi;
  */
 async function listInvoices(options = {}) {
   try {
-    const { cursor = null, limit = 100, locationId } = options;
-    
+    let { cursor, limit = 100, locationId } = options;
+    // Use env variable as fallback
+    if (!locationId) {
+      locationId = process.env.SQUARE_LOCATION_ID;
+    }
     if (!locationId) {
       throw new Error('Location ID is required to list invoices');
     }
-    
-    const response = await invoicesApi.listInvoices(locationId, cursor, limit);
+    // Only pass cursor if it is a string
+    const response = await invoicesApi.listInvoices(
+      locationId,
+      typeof cursor === 'string' ? cursor : undefined,
+      limit
+    );
+    // Add computed amount field to each invoice
+    if (response.result && response.result.invoices) {
+      response.result.invoices = response.result.invoices.map(inv => {
+        let amount = 0;
+        if (
+          inv.paymentRequests &&
+          inv.paymentRequests.length > 0
+        ) {
+          const pr = inv.paymentRequests[0];
+          if (pr.lineItems) {
+            amount = pr.lineItems.reduce((sum, item) => {
+              return sum + ((item.basePriceMoney && item.basePriceMoney.amount) ? item.basePriceMoney.amount : 0) * (parseInt(item.quantity) || 1);
+            }, 0) / 100;
+          } else if (pr.computedAmountMoney && pr.computedAmountMoney.amount) {
+            console.log('Invoice', inv.id, 'computedAmountMoney.amount:', pr.computedAmountMoney.amount);
+            amount = parseInt(pr.computedAmountMoney.amount) / 100;
+            console.log('Invoice', inv.id, 'calculated amount:', amount);
+          }
+        }
+        return { ...inv, amount };
+      });
+    }
     return response.result;
   } catch (error) {
     console.error('Error fetching invoices:', error);

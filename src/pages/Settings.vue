@@ -522,8 +522,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.page-content {
-  padding: 1.5rem;
+.page-content, .main-content, .data-table, .modal-content {
+  background: #fff !important;
 }
 
 .page-header {

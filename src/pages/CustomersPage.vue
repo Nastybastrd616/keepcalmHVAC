@@ -310,6 +310,10 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+body, .page-content, .main-content {
+  background-color: #fff !important;
+}
+
 .page-content {
   padding: 1.5rem;
 }

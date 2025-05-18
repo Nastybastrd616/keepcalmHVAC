@@ -74,6 +74,74 @@ button:focus-visible {
   text-align: center;
 }
 
+/* White background for main admin content */
+.admin-content,
+.page-content {
+  background: #fff;
+  color: #222;
+}
+
+/* White background for tables and containers */
+.data-table,
+.table-container,
+.filters-bar,
+.search-bar {
+  background: #fff;
+  color: #222;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* Table styling for modern look */
+.data-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  background: #fff;
+}
+.data-table th, .data-table td {
+  background: #fff;
+  color: #222;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+.data-table th {
+  font-weight: 600;
+  background: #fafafa;
+}
+
+/* Search bar and filter bar styling */
+.search-bar input,
+.filters-bar input {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  box-shadow: none;
+}
+.search-bar,
+.filters-bar {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+/* Modal content white background */
+.modal-content, .GenericModal {
+  background: #fff !important;
+  color: #222;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+/* Remove dark backgrounds from old rules */
+.admin-layout, .admin-header {
+  background: #fff !important;
+  color: #222;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

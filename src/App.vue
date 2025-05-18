@@ -9,7 +9,7 @@ import { auth, onAuthStateChanged } from './firebase';
 const showContactModal = ref(false)
 const user = ref(null as any);
 
-onAuthStateChanged(auth, (u) => {
+onAuthStateChanged(auth, (u: any) => {
   user.value = u;
 });
 

@@ -5,8 +5,7 @@
         <!-- Logo area -->
         <div class="nav-logo">
           <router-link to="/" class="logo-link">
-            <span class="logo-icon">❄️</span>
-            <span class="logo-text">KEEP<span class="logo-accent">CALM</span></span>
+            <img src="/new-nav-logo.svg" alt="Keep Calm HVAC Logo" class="nav-logo-image" />
           </router-link>
         </div>
         
@@ -22,11 +21,9 @@
           <router-link to="/about" class="nav-link" active-class="active">About</router-link>
           <router-link to="/contact" class="nav-link" active-class="active">Contact</router-link>
         </nav>
-        
-        <!-- Action buttons -->
-        <div class="nav-actions" :class="{ 'mobile-open': mobileMenuOpen }">
-          <button class="action-btn quote-btn" @click="$emit('openContact')">
-            <span class="btn-icon">📝</span>Get a Quote
+          <!-- Action buttons -->
+        <div class="nav-actions" :class="{ 'mobile-open': mobileMenuOpen }">          <button class="action-btn emergency-btn" @click="openEmergencyModal">
+            <span class="btn-icon">🚨</span>Request Emergency Service
           </button>
           <button class="action-btn login-btn" @click="openLoginModal">
             <span class="btn-icon">{{ user ? '👤' : '🔑' }}</span>
@@ -39,9 +36,11 @@
     <section class="content-area">
       <slot />
     </section>
-    
-    <!-- Login Modal -->
+      <!-- Login Modal -->
     <LoginModal v-if="showLoginModal" @close="closeLoginModal" @loginSuccess="handleLoginSuccess" />
+    
+    <!-- Emergency Service Modal -->
+    <EmergencyModal v-if="showEmergencyModal" @close="closeEmergencyModal" @optionSelected="handleEmergencyOptionSelected" />
   </div>
 </template>
 
@@ -49,10 +48,12 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import LoginModal from '../components/LoginModal.vue';
+import EmergencyModal from '../components/EmergencyModal.vue';
 import { auth, onAuthStateChanged } from '../firebase';
 
 const router = useRouter();
 const showLoginModal = ref(false);
+const showEmergencyModal = ref(false);
 const user = ref(null);
 const mobileMenuOpen = ref(false);
 
@@ -97,7 +98,7 @@ function handleLoginSuccess() {
 
 /* Modern Navigation Styling */
 .top-nav {
-  background: linear-gradient(135deg, #222222 0%, #181818 100%);
+  background: linear-gradient(90deg, #ff9100 0%, #4267b2 100%);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
@@ -126,20 +127,25 @@ function handleLoginSuccess() {
   color: #fff;
 }
 
-.logo-icon {
-  font-size: 1.6rem;
-  margin-right: 0.5rem;
+.nav-logo {
+  display: flex;
+  align-items: center;
 }
 
-.logo-text {
-  font-weight: 800;
-  font-size: 1.5rem;
-  letter-spacing: 0.1em;
+.logo-link {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 5px 0;
 }
 
-.logo-accent {
-  color: #ff9100;
-  margin-left: 4px;
+.nav-logo-image {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: transform 0.2s ease;
+  margin: 5px 0;
 }
 
 /* Navigation links */
@@ -210,15 +216,32 @@ function handleLoginSuccess() {
   font-size: 1.1rem;
 }
 
-.quote-btn {
-  background-color: transparent;
+.emergency-btn {
+  background-color: #d9261c;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid #fff;
+  animation: pulse 2s infinite;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-weight: 700;
 }
 
-.quote-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
+.emergency-btn:hover {
+  background-color: #f13529;
+  border-color: #fff;
+  animation: none;
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(217, 38, 28, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(217, 38, 28, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(217, 38, 28, 0);
+  }
 }
 
 .login-btn {
@@ -324,10 +347,14 @@ function handleLoginSuccess() {
   .nav-link::after {
     display: none;
   }
-  
-  .action-btn {
+    .action-btn {
     justify-content: center;
     padding: 0.8rem;
+  }
+  
+  .emergency-btn {
+    order: -1;
+    margin-bottom: 0.5rem;
   }
 }
 
