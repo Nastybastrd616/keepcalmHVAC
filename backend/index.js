@@ -27,6 +27,10 @@ const estimateRoutes = require('./routes/estimates');
 const invoiceRoutes = require('./routes/invoices');
 const scheduleRoutes = require('./routes/schedule');
 const settingsRoutes = require('./routes/settings');
+const systemMetadataRouter = require('./routes/system-metadata');
+const chatbotHistoryRouter = require('./routes/chatbot-history');
+const systemLogsRouter = require('./routes/system-logs');
+const customersDbRouter = require('./routes/customers-db');
 const { testConnection } = require('./services/square');
 const { runSquareNetworkDiagnostics } = require('./services/network-diagnostics');
 
@@ -44,6 +48,10 @@ app.use('/api/estimates', estimateRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/schedule', scheduleRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/system-metadata', systemMetadataRouter);
+app.use('/api/chatbot-history', chatbotHistoryRouter);
+app.use('/api/system-logs', systemLogsRouter);
+app.use('/api/customers-db', customersDbRouter);
 
 // Test Square API connection
 app.get('/api/test-square-connection', async (req, res, next) => {

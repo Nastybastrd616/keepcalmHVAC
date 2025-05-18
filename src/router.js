@@ -11,6 +11,7 @@ import InvoicesPage from './pages/InvoicesPage.vue';
 import EstimatesPage from './pages/EstimatesPage.vue';
 import SchedulingPage from './pages/SchedulingPage.vue';
 import Settings from './pages/Settings.vue';
+import DatabaseViewer from './pages/DatabaseViewer.vue';
 import { auth } from './firebase';
 
 const routes = [
@@ -96,6 +97,11 @@ const routes = [
     name: 'Settings',
     component: Settings,
     meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/database-viewer',
+    name: 'DatabaseViewer',
+    component: DatabaseViewer
   }
 ];
 
