@@ -468,6 +468,7 @@ onMounted(async () => {
 <style scoped>
 body, .page-content, .main-content {
   background-color: #fff !important;
+  color: #222;
 }
 
 .page-content {
@@ -482,33 +483,36 @@ body, .page-content, .main-content {
 }
 
 .calendar-container {
-  background: #333333;
-  border-radius: var(--card-radius);
+  background: #fff;
+  border-radius: 8px;
   padding: 1rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   margin-bottom: 1.5rem;
 }
 
 .appointments-container {
-  background: #333333;
-  border-radius: var(--card-radius);
+  background: #fff;
+  border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .search-bar {
   display: flex;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0.5rem 1rem;
 }
-
 .search-bar input {
   flex: 1;
   padding: 0.75rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #3a3a3a;
-  color: #ffffff;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  color: #222;
 }
 
 .date-filters {
@@ -662,6 +666,8 @@ body, .page-content, .main-content {
 
 .modal-content {
   padding: 1.5rem;
+  background: #fff;
+  color: #222;
 }
 
 .form-group {
@@ -678,9 +684,9 @@ body, .page-content, .main-content {
   width: 100%;
   padding: 0.75rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #3a3a3a;
-  color: #ffffff;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #222;
 }
 
 .modal-actions {

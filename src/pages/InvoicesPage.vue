@@ -63,7 +63,11 @@
         <tbody>
           <tr v-for="invoice in filteredInvoices" :key="invoice.id">
             <td>{{ invoice.invoiceNumber || invoice.id.substring(0, 8) }}</td>
-            <td>{{ getCustomerName(invoice.primaryRecipient?.customerId) }}</td>
+            <td>
+              <a href="#" class="customer-link" @click.prevent="openProfileModal(invoice.primaryRecipient?.customerId)">
+                {{ getCustomerName(invoice.primaryRecipient?.customerId) }}
+              </a>
+            </td>
             <td>{{ formatCurrency(calculateTotal(invoice)) }}</td>
             <td>
               <span class="status-badge" :class="getStatusClass(invoice.status)">
@@ -179,6 +183,14 @@
           </button>
         </div>
       </div>    </GenericModal>
+
+      <!-- Customer Profile Modal -->
+      <CustomerProfileModal
+        v-if="showProfileModal"
+        :customerId="profileCustomerId"
+        :show="showProfileModal"
+        @close="closeProfileModal"
+      />
   </div>
   </AdminLayout>
 </template>
@@ -189,6 +201,7 @@ import { useInvoiceStore } from '../stores/invoiceStore';
 import { useCustomerStore } from '../stores/customerStore';
 import GenericModal from '../components/GenericModal.vue';
 import AdminLayout from '../layouts/AdminLayout.vue';
+import CustomerProfileModal from '../components/CustomerProfileModal.vue';
 
 // Stores
 const invoiceStore = useInvoiceStore();
@@ -199,8 +212,10 @@ const searchQuery = ref('');
 const filteredInvoices = ref([]);
 const showInvoiceModal = ref(false);
 const showDeleteModal = ref(false);
+const showProfileModal = ref(false);
 const modalMode = ref('add'); // 'add' or 'edit'
 const selectedInvoiceId = ref(null);
+const profileCustomerId = ref(null);
 const activeFilter = ref('all');
 const saving = ref(false);
 const deleting = ref(false);
@@ -465,6 +480,16 @@ async function saveInvoice() {
   }
 }
 
+function openProfileModal(id) {
+  profileCustomerId.value = id;
+  showProfileModal.value = true;
+}
+
+function closeProfileModal() {
+  showProfileModal.value = false;
+  profileCustomerId.value = null;
+}
+
 function closeInvoiceModal() {
   showInvoiceModal.value = false;
   resetForm();
@@ -507,6 +532,7 @@ onMounted(async () => {
 <style scoped>
 body, .page-content, .main-content {
   background-color: #fff !important;
+  color: #222;
 }
 
 .page-content {
@@ -525,6 +551,10 @@ body, .page-content, .main-content {
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 1rem;
 }
 
 .filter-buttons {
@@ -533,9 +563,9 @@ body, .page-content, .main-content {
 }
 
 .filter-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  background: #f5f7fa;
+  border: 1px solid #e0e0e0;
+  color: #222;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -543,49 +573,57 @@ body, .page-content, .main-content {
 }
 
 .filter-button:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: #eaf1fb;
 }
 
 .filter-button.active {
   background: var(--primary-color);
   border-color: var(--primary-color);
+  color: #fff;
 }
 
 .search-bar {
   flex: 1;
   min-width: 200px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0.5rem 1rem;
 }
-
 .search-bar input {
   width: 100%;
   padding: 0.75rem;
-  border-radius: var(--card-radius);
-  border: var(--card-border);
-  background: #333333;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  color: #222;
 }
 
 .table-container {
-  background: #333333;
-  border-radius: var(--card-radius);
+  background: #fff;
+  border-radius: 8px;
   padding: 1rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   overflow-x: auto;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
+  background: #fff;
 }
 
 .data-table th, .data-table td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #eee;
+  color: #222;
 }
 
 .data-table th {
   font-weight: 600;
   color: var(--primary-color);
+  background: #fafafa;
 }
 
 .status-badge {
@@ -713,6 +751,8 @@ body, .page-content, .main-content {
 
 .modal-content {
   padding: 1.5rem;
+  background: #fff;
+  color: #222;
 }
 
 .form-group {
@@ -726,12 +766,11 @@ body, .page-content, .main-content {
 }
 
 .form-group input, .form-group textarea, .form-group select {
-  width: 100%;
+  background: #fff;
+  color: #222;
+  border: 1px solid #ddd;
   padding: 0.75rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #3a3a3a;
-  color: #ffffff;
 }
 
 .form-group textarea {
@@ -748,6 +787,8 @@ body, .page-content, .main-content {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   padding: 1rem;
+  background: #fff;
+  color: #222;
 }
 
 .line-item-fields {
@@ -773,6 +814,16 @@ body, .page-content, .main-content {
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 2rem;
+}
+
+.customer-link {
+  color: var(--primary-color, #3b5998);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+.customer-link:hover {
+  color: #ff9100;
 }
 
 @keyframes spin {

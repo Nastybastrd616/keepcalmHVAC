@@ -38,8 +38,8 @@ function submitForm() {
   z-index: 1000;
 }
 .modal {
-  background: #333333;
-  color: rgba(255, 255, 255, 0.87);
+  background: #fff;
+  color: #222;
   padding: 2rem;
   border-radius: 8px;
   min-width: 300px;

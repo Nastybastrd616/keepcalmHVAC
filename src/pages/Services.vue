@@ -337,13 +337,13 @@ function toggleFaq(index) {
 }
 
 .service-card {
-  background: #333333;
+  background: #fff;
+  color: #222;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(59, 89, 152, 0.12);
   border: 1px solid rgba(59, 89, 152, 0.1);
   padding: 1.5rem;
   display: flex;
-  color: rgba(255, 255, 255, 0.87);
   flex-direction: column;
   transition: transform 0.3s, box-shadow 0.3s;
 }

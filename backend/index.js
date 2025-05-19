@@ -29,6 +29,7 @@ const scheduleRoutes = require('./routes/schedule');
 const settingsRoutes = require('./routes/settings');
 const systemMetadataRouter = require('./routes/system-metadata');
 const chatbotHistoryRouter = require('./routes/chatbot-history');
+// const chatbotSettingsRouter = require('./routes/chatbot-settings'); // Comment out for now
 const systemLogsRouter = require('./routes/system-logs');
 const customersDbRouter = require('./routes/customers-db');
 const { testConnection } = require('./services/square');
@@ -50,8 +51,13 @@ app.use('/api/schedule', scheduleRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/system-metadata', systemMetadataRouter);
 app.use('/api/chatbot-history', chatbotHistoryRouter);
+// app.use('/api/chatbot-settings', chatbotSettingsRouter); // Comment out for now
 app.use('/api/system-logs', systemLogsRouter);
 app.use('/api/customers-db', customersDbRouter);
+
+// Add chatbot API route
+const chatbotRouter = require('./routes/chatbot');
+app.use('/api/chatbot', chatbotRouter);
 
 // Test Square API connection
 app.get('/api/test-square-connection', async (req, res, next) => {

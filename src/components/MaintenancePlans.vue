@@ -204,7 +204,8 @@ function subscribeToPlan() {
 }
 
 .plan-signup {
-  background: #f9f9fb;
+  background: rgba(255,255,255,0.85) !important;
+  color: #222;
   padding: 2rem;
   border-radius: 1rem;
   margin: 2rem auto;

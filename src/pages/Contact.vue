@@ -37,9 +37,9 @@ function submitForm() {
 </script>
 
 <style scoped>
-.contact-form {
-  margin-bottom: 2rem;
-  background: #333333;
+.contact-form, .contact-details {
+  background: #fff;
+  color: #222;
   border-radius: 12px;
   padding: 2rem;
   box-shadow: var(--card-shadow);
@@ -48,19 +48,16 @@ function submitForm() {
 
 .contact-details {
   margin-top: 2rem;
-  background: #333333;
-  border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: var(--card-shadow);
-  border: var(--card-border);
 }
+
 .map {
   border-radius: 1rem;
   margin-top: 1rem;
 }
 
 label {
-  color: rgba(255, 255, 255, 0.87);
+  color: #222;
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -68,11 +65,11 @@ label {
 input, textarea {
   width: 100%;
   margin-bottom: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #ddd;
   border-radius: 6px;
   padding: 0.75rem;
-  background: #3a3a3a;
-  color: #ffffff;
+  background: #fff;
+  color: #222;
 }
 
 input:focus, textarea:focus {

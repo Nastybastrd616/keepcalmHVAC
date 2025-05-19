@@ -445,8 +445,8 @@ onMounted(() => {
 
 <style scoped>
 .advanced-calendar {
-  background: #333333;
-  color: rgba(255, 255, 255, 0.87);
+  background: #fff;
+  color: #222;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   padding: 1.5rem;

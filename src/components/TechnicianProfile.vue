@@ -210,8 +210,9 @@ function requestTech() {
   color: #666;
 }
 
-.profile-content {
-  padding: 2rem;
+.profile-content, .recent-reviews, .review, .name-section {
+  background: rgba(255,255,255,0.85) !important;
+  color: #222;
 }
 
 .name-section {

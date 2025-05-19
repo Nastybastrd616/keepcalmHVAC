@@ -4,10 +4,10 @@
       <SlideshowGallery :images="slideshowImages" />
       <div class="hero-content">
         <h1>Don't Worry, Keep Calm HVAC is Here to Help</h1>
-        <p>Your trusted partner in keeping you comfortable all year round.</p>
-        <div class="hero-buttons">
+        <p>Your trusted partner in keeping you comfortable all year round.</p>        <div class="hero-buttons">
           <button @click="$emit('openContact')" class="request-btn">Request a Quote</button>
           <button class="login-btn" @click="$emit('goTo', 'login')">Login (Current & New Customers)</button>
+          <router-link v-if="isAdmin" to="/admin" class="admin-btn">Admin Dashboard</router-link>
         </div>
       </div>
     </section>
@@ -30,11 +30,13 @@
 </template>
 
 <script setup>
+import { ref, computed } from 'vue';
 import SlideshowGallery from '../components/SlideshowGallery.vue';
 import PriceCard from '../components/PriceCard.vue';
+import { auth, onAuthStateChanged } from '../firebase';
 
 const slideshowImages = [
-  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+  'visitpa_Great-Lakes_Erie.jpg',
   'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80',
   'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80'
 ];
@@ -44,6 +46,17 @@ const highlights = [
   { title: 'Heating Repair', description: 'Keep your home warm and safe.', price: '$99+', icon: '🔥' },
   { title: 'Duct Cleaning', description: 'Breathe easy with clean air ducts.', price: '$199+', icon: '🌀' }
 ];
+
+// User authentication
+const user = ref(null);
+
+onAuthStateChanged(auth, (currentUser) => {
+  user.value = currentUser;
+});
+
+const isAdmin = computed(() => {
+  return user.value && (user.value.isAdmin === true || user.value.email === 'admin@example.com');
+});
 </script>
 
 <style scoped>

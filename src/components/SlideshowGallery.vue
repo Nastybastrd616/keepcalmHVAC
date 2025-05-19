@@ -41,7 +41,7 @@ onUnmounted(() => {
   justify-content: center;
   overflow: hidden;
   border-radius: 1rem;
-  background: #333333;
+  background: #fff;
 }
 .slideshow-image {
   width: 100%;

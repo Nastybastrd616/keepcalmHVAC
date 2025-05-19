@@ -169,7 +169,8 @@ h2 {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #FFF8E1;
+  background: #fff;
+  color: #222;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
@@ -277,7 +278,8 @@ textarea {
 }
 
 .contact-info {
-  background: #E0F7FA;
+  background: #fff;
+  color: #222;
   padding: 1rem;
   border-radius: 4px;
   margin: 2rem 0;

@@ -21,10 +21,10 @@
   z-index: 1000;
 }
 .modal {
-  background: #333333;
+  background: #fff;
   padding: 2rem;
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.87); /* Ensure text is visible */
+  color: #222; /* Dark text for light theme */
   min-width: 300px;
   max-width: 90vw;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);

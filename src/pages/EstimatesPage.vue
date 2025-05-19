@@ -548,6 +548,7 @@ onMounted(async () => {
 <style scoped>
 body, .page-content, .main-content {
   background-color: #fff !important;
+  color: #222;
 }
 
 .page-content {
@@ -566,6 +567,10 @@ body, .page-content, .main-content {
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 1rem;
 }
 
 .filter-buttons {
@@ -574,9 +579,9 @@ body, .page-content, .main-content {
 }
 
 .filter-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  background: #f5f7fa;
+  border: 1px solid #e0e0e0;
+  color: #222;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -584,49 +589,57 @@ body, .page-content, .main-content {
 }
 
 .filter-button:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: #eaf1fb;
 }
 
 .filter-button.active {
   background: var(--primary-color);
   border-color: var(--primary-color);
+  color: #fff;
 }
 
 .search-bar {
   flex: 1;
   min-width: 200px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0.5rem 1rem;
 }
-
 .search-bar input {
   width: 100%;
   padding: 0.75rem;
-  border-radius: var(--card-radius);
-  border: var(--card-border);
-  background: #333333;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  color: #222;
 }
 
 .table-container {
-  background: #333333;
-  border-radius: var(--card-radius);
+  background: #fff;
+  border-radius: 8px;
   padding: 1rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   overflow-x: auto;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
+  background: #fff;
 }
 
 .data-table th, .data-table td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #eee;
+  color: #222;
 }
 
 .data-table th {
   font-weight: 600;
   color: var(--primary-color);
+  background: #fafafa;
 }
 
 .status-badge {
@@ -759,6 +772,8 @@ body, .page-content, .main-content {
 
 .modal-content {
   padding: 1.5rem;
+  background: #fff;
+  color: #222;
 }
 
 .form-group {
@@ -772,12 +787,11 @@ body, .page-content, .main-content {
 }
 
 .form-group input, .form-group textarea, .form-group select {
-  width: 100%;
+  background: #fff;
+  color: #222;
+  border: 1px solid #ddd;
   padding: 0.75rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #3a3a3a;
-  color: #ffffff;
 }
 
 .form-group textarea {
@@ -791,7 +805,9 @@ body, .page-content, .main-content {
 
 .line-item {
   margin-bottom: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #fff;
+  color: #222;
+  border: 1px solid #eee;
   border-radius: 6px;
   padding: 1rem;
 }

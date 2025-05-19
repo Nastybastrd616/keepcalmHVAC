@@ -25,13 +25,17 @@
         </thead>
         <tbody>
           <tr v-for="customer in filteredCustomers" :key="customer.id">
-            <td>{{ customer.givenName }} {{ customer.familyName }}</td>
+            <td>
+              <a href="#" class="customer-link" @click.prevent="openProfileModal(customer.id)">
+                {{ customer.givenName }} {{ customer.familyName }}
+              </a>
+            </td>
             <td>{{ customer.emailAddress }}</td>
             <td>{{ customer.phoneNumber }}</td>
             <td>{{ calculateRevenue(customer.id) }}</td>
             <td>{{ invoiceCount(customer.id) }}</td>
             <td class="actions-cell">
-              <button class="icon-button" @click="viewCustomer(customer.id)">
+              <button class="icon-button" @click="openProfileModal(customer.id)">
                 <span class="icon">👁️</span>
               </button>
               <button class="icon-button" @click="editCustomer(customer.id)">
@@ -117,6 +121,13 @@
           </button>
         </div>      </div>
     </GenericModal>
+
+    <CustomerProfileModal
+      v-if="showProfileModal"
+      :customerId="profileCustomerId"
+      :show="showProfileModal"
+      @close="closeProfileModal"
+    />
   </div>
   </AdminLayout>
 </template>
@@ -127,6 +138,7 @@ import { useCustomerStore } from '../stores/customerStore';
 import { useInvoiceStore } from '../stores/invoiceStore';
 import GenericModal from '../components/GenericModal.vue';
 import AdminLayout from '../layouts/AdminLayout.vue';
+import CustomerProfileModal from '../components/CustomerProfileModal.vue';
 
 // Store
 const customerStore = useCustomerStore();
@@ -137,8 +149,10 @@ const searchQuery = ref('');
 const filteredCustomers = ref([]);
 const showCustomerModal = ref(false);
 const showDeleteModal = ref(false);
+const showProfileModal = ref(false);
 const modalMode = ref('add'); // 'add' or 'edit'
 const selectedCustomerId = ref(null);
+const profileCustomerId = ref(null);
 const saving = ref(false);
 const deleting = ref(false);
 
@@ -274,6 +288,16 @@ async function saveCustomer() {
   }
 }
 
+function openProfileModal(id) {
+  profileCustomerId.value = id;
+  showProfileModal.value = true;
+}
+
+function closeProfileModal() {
+  showProfileModal.value = false;
+  profileCustomerId.value = null;
+}
+
 function closeCustomerModal() {
   showCustomerModal.value = false;
   resetForm();
@@ -312,6 +336,7 @@ onMounted(async () => {
 <style scoped>
 body, .page-content, .main-content {
   background-color: #fff !important;
+  color: #222;
 }
 
 .page-content {
@@ -327,38 +352,45 @@ body, .page-content, .main-content {
 
 .search-bar {
   margin-bottom: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  padding: 0.5rem 1rem;
 }
-
 .search-bar input {
   width: 100%;
   padding: 0.75rem;
-  border-radius: var(--card-radius);
-  border: var(--card-border);
-  background: #333333;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  color: #222;
 }
 
 .table-container {
-  background: #333333;
-  border-radius: var(--card-radius);
+  background: #fff;
+  border-radius: 8px;
   padding: 1rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   overflow-x: auto;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
+  background: #fff;
 }
 
 .data-table th, .data-table td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #eee;
+  color: #222;
 }
 
 .data-table th {
   font-weight: 600;
   color: var(--primary-color);
+  background: #fafafa;
 }
 
 .actions-cell {
@@ -453,6 +485,8 @@ body, .page-content, .main-content {
 
 .modal-content {
   padding: 1.5rem;
+  background: #fff;
+  color: #222;
 }
 
 .form-group {
@@ -470,9 +504,9 @@ body, .page-content, .main-content {
   padding: 0.75rem;
   margin-bottom: 0.5rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #3a3a3a;
-  color: #ffffff;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #222;
 }
 
 .address-inline {
@@ -486,6 +520,16 @@ body, .page-content, .main-content {
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 2rem;
+}
+
+.customer-link {
+  color: var(--primary-color, #3b5998);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+.customer-link:hover {
+  color: #ff9100;
 }
 
 @keyframes spin {

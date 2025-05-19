@@ -80,7 +80,7 @@ function selectOption(type) {
 .modal-container {
   width: 90%;
   max-width: 550px;
-  background-color: #fff;
+  background: rgba(255,255,255,0.92) !important;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);

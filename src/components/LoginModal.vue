@@ -142,13 +142,13 @@ async function register() {
 }
 
 .modal-content {
-  background: #333333;
+  background: #fff;
+  color: #222;
   padding: 2rem;
   border-radius: 8px;
   width: 90%;
   max-width: 400px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
-  color: rgba(255, 255, 255, 0.87);
 }
 
 h2 {

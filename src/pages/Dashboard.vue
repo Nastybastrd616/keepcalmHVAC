@@ -454,4 +454,10 @@ section {
   color: #666;
   font-size: 0.9rem;
 }
+
+/* Unified styles for backgrounds and text colors */
+.admin-card, .account-details, .service-option, .admin-tools, .tab-content, .dashboard-page, .billing-history th, .billing-history td, .edit-btn, .logout-btn {
+  background: rgba(255,255,255,0.85) !important;
+  color: #222;
+}
 </style>

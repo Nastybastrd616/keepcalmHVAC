@@ -2,6 +2,8 @@
  * Service for handling chatbot intents and converting them to API actions
  */
 
+const fetch = require('node-fetch');
+
 /**
  * Process a chatbot intent and route it to the appropriate service
  * @param {Object} intent - The chatbot intent object
@@ -125,6 +127,70 @@ async function getCustomerFromIntent({ customer }) {
   };
 }
 
+/**
+ * Get a response from a local OpenAI-compatible endpoint (e.g., LM Studio)
+ * @param {string} prompt
+ * @returns {Promise<string>} The AI's reply
+ */
+async function getAIReply(prompt) {
+  try {
+    // Read settings from file
+    const fs = require('fs').promises;
+    const path = require('path');
+    const CHATBOT_SETTINGS_PATH = path.join(__dirname, '../data/chatbot_settings.json');
+    
+    let settings;
+    try {
+      const data = await fs.readFile(CHATBOT_SETTINGS_PATH, 'utf-8');
+      settings = JSON.parse(data);
+    } catch (error) {
+      console.error('Error reading chatbot settings:', error.message);
+      settings = {
+        enabled: false,
+        endpoint: 'http://localhost:1234/v1',
+        apiKey: '',
+        model: 'gpt-3.5-turbo',
+        systemPrompt: 'You are an HVAC assistant. Answer user questions about HVAC services, scheduling, pricing, and emergencies.'
+      };
+    }
+    
+    // If chatbot is disabled, return a default message
+    if (!settings.enabled) {
+      return 'The chatbot service is currently disabled. Please check your settings and try again later.';
+    }
+    
+    const res = await fetch(`${settings.endpoint}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': settings.apiKey ? `Bearer ${settings.apiKey}` : ''
+      },
+      body: JSON.stringify({
+        model: settings.model || 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: settings.systemPrompt || 'You are an HVAC assistant. Answer user questions about HVAC services, scheduling, pricing, and emergencies.' },
+          { role: 'user', content: prompt }
+        ]
+      }),
+      timeout: 10000 // 10 second timeout
+    });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error(`AI API error (${res.status}):`, errorText);
+      return `Sorry, there was a problem with the AI service (Error ${res.status}). Please try again later.`;
+    }
+    
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content || 'Sorry, I could not get a response.';
+  } catch (e) {
+    console.error('AI backend error:', e);
+    return 'Sorry, there was a problem connecting to the AI assistant. Please check that your AI service is running and accessible.';
+  }
+}
+
+// Export getAIReply for use in chatbot route
 module.exports = {
-  processIntent
+  processIntent,
+  getAIReply
 };

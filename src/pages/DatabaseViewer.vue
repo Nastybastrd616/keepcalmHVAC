@@ -96,7 +96,7 @@ onMounted(loadDb);
 }
 .db-table-container {
   margin-top: 2rem;
-  background: #fafbfc;
+  background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   padding: 1.5rem;
@@ -108,6 +108,7 @@ onMounted(loadDb);
   font-size: 0.95rem;
   max-height: 400px;
   overflow: auto;
+  color: #222;
 }
 .integrity-result {
   margin-top: 1rem;

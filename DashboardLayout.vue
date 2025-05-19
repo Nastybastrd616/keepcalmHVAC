@@ -100,6 +100,7 @@ const router = useRouter();
   flex: 1;
   padding: 2rem;
   background: #f9f9fb;
+  margin-top: 120px; /* Offset for sticky nav bar */
 }
 @media (max-width: 900px) {
   .top-nav {

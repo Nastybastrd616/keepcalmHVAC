@@ -21,8 +21,8 @@ const props = defineProps({
 
 <style scoped>
 .price-card {
-  background: #333333;
-  color: rgba(255, 255, 255, 0.87); /* Ensuring text is visible */
+  background: #fff;
+  color: #222;
   border-radius: 1rem;
   box-shadow: 0 4px 12px rgba(59, 89, 152, 0.12);
   border: 1px solid rgba(59, 89, 152, 0.1);

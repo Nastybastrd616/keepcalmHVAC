@@ -184,6 +184,30 @@
             />
           </div>
           
+          <div class="form-group">
+            <label>Chatbot Model</label>
+            <input 
+              type="text" 
+              v-model="chatbotSettings.model" 
+              placeholder="gpt-3.5-turbo" 
+            />
+            <p class="help-text">
+              The name of the model to use (depends on your local LM Studio configuration).
+            </p>
+          </div>
+          
+          <div class="form-group">
+            <label>System Prompt</label>
+            <textarea
+              v-model="chatbotSettings.systemPrompt"
+              placeholder="You are an HVAC assistant. Answer user questions about HVAC services, scheduling, pricing, and emergencies."
+              rows="4"
+            ></textarea>
+            <p class="help-text">
+              The system prompt gives instructions to the AI about how to respond.
+            </p>
+          </div>
+          
           <div class="form-actions">
             <button 
               class="primary-button" 
@@ -221,6 +245,12 @@
       </div>
     </div>
   </div>
+  <!-- Save Settings Button at the bottom -->
+  <div style="display: flex; justify-content: flex-end; margin: 2.5rem 0 0 0;">
+    <button class="primary-button" @click="saveAllSettings">
+      <span class="icon">💾</span> Save All Settings
+    </button>
+  </div>
 </template>
 
 <script setup>
@@ -256,7 +286,8 @@ const chatbotSettings = ref({
   enabled: false,
   endpoint: 'http://localhost:1234/v1',
   apiKey: '',
-  model: 'default'
+  model: 'gpt-3.5-turbo',
+  systemPrompt: 'You are an HVAC assistant. Answer user questions about HVAC services, scheduling, pricing, and emergencies.'
 });
 
 const dbFiles = [
@@ -357,14 +388,38 @@ async function testChatbotConnection() {
   chatbotStatus.value = null;
   
   try {
-    // In a real implementation, this would test the chatbot connection
-    // For now we'll simulate a successful response
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Make a direct test request to the chatbot API instead of using our backend endpoint
+    // that doesn't exist yet
+    const response = await fetch(`${chatbotSettings.value.endpoint}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': chatbotSettings.value.apiKey ? `Bearer ${chatbotSettings.value.apiKey}` : ''
+      },
+      body: JSON.stringify({
+        model: chatbotSettings.value.model || 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: 'You are an HVAC assistant.' },
+          { role: 'user', content: 'Test connection' }
+        ],
+        max_tokens: 5
+      })
+    });
     
-    chatbotStatus.value = {
-      type: 'success',
-      message: 'Successfully connected to the chatbot service!'
-    };
+    if (response.ok) {
+      const data = await response.json();
+      if (data.choices && data.choices.length > 0) {
+        chatbotStatus.value = {
+          type: 'success',
+          message: 'Successfully connected to the chatbot service!'
+        };
+      } else {
+        throw new Error('Invalid response format from AI service');
+      }
+    } else {
+      const errorText = await response.text();
+      throw new Error(`API responded with status ${response.status}: ${errorText}`);
+    }
   } catch (error) {
     console.error('Failed to connect to chatbot service:', error);
     
@@ -459,9 +514,11 @@ async function saveAllSettings() {
       throw new Error(response.data?.message || 'Unknown error saving settings');
     }
     
+    // Save chatbot settings using our dedicated function
+    await saveChatbotSettings();
+    
     // Save other settings to localStorage for now
     localStorage.setItem('businessInfo', JSON.stringify(businessInfo.value));
-    localStorage.setItem('chatbotSettings', JSON.stringify(chatbotSettings.value));
     
     // Also save square settings to localStorage as backup
     localStorage.setItem('squareSettings', JSON.stringify({
@@ -473,9 +530,10 @@ async function saveAllSettings() {
     // Show connection status
     connectionStatus.value = {
       type: 'success',
-      message: 'Settings saved successfully! Backend API updated.'
+      message: 'Settings saved successfully!'
     };
-      // Ask server to restart to apply environment changes
+    
+    // Ask server to restart to apply environment changes
     try {
       await axios.post(`${API_URL}/settings/restart`);
       console.log('Server restart requested');
@@ -491,6 +549,43 @@ async function saveAllSettings() {
       type: 'error',
       message: 'Error saving settings: ' + (error.response?.data?.message || error.message || 'Unknown error')
     };
+  }
+}
+
+// Save settings function that directly writes to the chatbot_settings.json file
+async function saveChatbotSettings() {
+  try {
+    // Store in localStorage first as a backup
+    localStorage.setItem('chatbotSettings', JSON.stringify(chatbotSettings.value));
+    
+    // Try to save to backend directly using fetch instead of axios since we don't have
+    // the settings route yet
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:9876/api';
+    
+    try {
+      // Post directly to the chatbot API endpoint
+      await fetch(`${API_URL}/chatbot`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          action: 'saveSettings', 
+          settings: chatbotSettings.value 
+        })
+      });
+      
+      console.log('Chatbot settings saved to backend');
+      
+    } catch (backendError) {
+      console.warn('Could not save chatbot settings to backend:', backendError);
+      console.log('Settings saved to localStorage as fallback');
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error saving chatbot settings:', error);
+    return false;
   }
 }
 
@@ -554,6 +649,54 @@ onMounted(async () => {
   }
 });
 
+// Load settings from the backend
+async function loadSettings() {
+  try {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:9876/api';
+    
+    // Load Square settings
+    const squareResponse = await axios.get(`${API_URL}/settings`);
+    if (squareResponse.data) {
+      squareToken.value = squareResponse.data.hasSquareToken ? '••••••••••••••••' : '';
+      squareEnvironment.value = squareResponse.data.squareEnvironment || 'sandbox';
+      squareLocationId.value = squareResponse.data.squareLocationId || '';
+      squareApplicationId.value = squareResponse.data.squareApplicationId || '';
+    }
+    
+    // Load chatbot settings
+    try {
+      const chatbotResponse = await axios.get(`${API_URL}/chatbot-settings`);
+      if (chatbotResponse.data) {
+        chatbotSettings.value = chatbotResponse.data;
+      }
+    } catch (chatbotError) {
+      console.error('Error loading chatbot settings:', chatbotError);
+      // Fall back to localStorage if backend fails
+      const savedChatbotSettings = localStorage.getItem('chatbotSettings');
+      if (savedChatbotSettings) {
+        try {
+          chatbotSettings.value = JSON.parse(savedChatbotSettings);
+        } catch (parseError) {
+          console.error('Error parsing saved chatbot settings:', parseError);
+        }
+      }
+    }
+    
+    // Load business info from localStorage (this isn't stored in backend yet)
+    const savedBusinessInfo = localStorage.getItem('businessInfo');
+    if (savedBusinessInfo) {
+      try {
+        businessInfo.value = JSON.parse(savedBusinessInfo);
+      } catch (parseError) {
+        console.error('Error parsing saved business info:', parseError);
+      }
+    }
+  } catch (error) {
+    console.error('Error loading settings:', error);
+    showToast('Error loading settings. See console for details.', 'error');
+  }
+}
+
 // Database functions
 function loadDb() {
   fetch(`/backend/data/${selectedFile.value}`)
@@ -602,6 +745,7 @@ onMounted(loadDb);
 <style scoped>
 .page-content, .main-content, .data-table, .modal-content {
   background: #fff !important;
+  color: #222;
 }
 
 .page-header {
@@ -618,17 +762,17 @@ onMounted(loadDb);
 }
 
 .settings-section {
-  background: #333333;
-  border-radius: var(--card-radius);
+  background: #fff;
+  border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .settings-section h2 {
   margin-top: 0;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #eee;
   color: var(--primary-color);
 }
 
@@ -646,9 +790,9 @@ onMounted(loadDb);
   width: 100%;
   padding: 0.75rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #3a3a3a;
-  color: #ffffff;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  color: #222;
 }
 
 .token-input {

@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-gray-50 border-t border-gray-200 py-6 sm:py-8 mt-12">
+  <footer class="bg-white border-t border-gray-200 py-6 sm:py-8 mt-12">
     <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
       <div class="flex items-center gap-2 sm:gap-3">
         <img src="/thermometer-logo.svg" alt="Keep Calm HVAC Logo" class="w-12 h-12 sm:w-14 sm:h-14" />        <span class="font-bold text-lg sm:text-xl text-gray-800">Keep Calm Heating and Cooling</span>

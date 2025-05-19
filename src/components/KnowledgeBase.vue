@@ -437,7 +437,7 @@ const filteredArticles = computed(() => {
 }
 
 .article-modal {
-  background: #333333;
+  background: #fff;
   border-radius: 8px;
   max-width: 800px;
   width: 100%;
@@ -445,7 +445,7 @@ const filteredArticles = computed(() => {
   overflow-y: auto;
   padding: 2rem;
   position: relative;
-  color: rgba(255, 255, 255, 0.87);
+  color: #222;
 }
 
 .close-btn {

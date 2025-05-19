@@ -414,7 +414,8 @@ input, select {
 }
 
 .comparison-card {
-  background: #f9f9fb;
+  background: #fff;
+  color: #222;
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;

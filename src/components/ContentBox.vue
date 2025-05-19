@@ -15,14 +15,14 @@ defineProps({
 
 <style scoped>
 .content-box {
-  background: #333333;
+  background: rgba(255,255,255,0.85) !important;
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   border: var(--card-border);
   padding: 1.5rem 2rem;
   margin-bottom: 1.5rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  color: rgba(255, 255, 255, 0.87);
+  color: #222;
 }
 
 .content-box.with-hover:hover {
