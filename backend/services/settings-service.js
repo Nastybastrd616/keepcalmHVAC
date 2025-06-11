@@ -18,8 +18,8 @@ async function readEnvFile() {
     // Parse the content into key-value pairs
     const envVars = {};
     content.split('\n').forEach(line => {
-      // Skip comments and empty lines
-      if (line.trim() && !line.trim().startsWith('//')) {
+      // Skip empty lines and lines starting with // or #
+      if (line.trim() && !line.trim().startsWith('//') && !line.trim().startsWith('#')) {
         const parts = line.split('=');
         if (parts.length >= 2) {
           const key = parts[0].trim();
